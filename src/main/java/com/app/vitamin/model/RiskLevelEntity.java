@@ -1,7 +1,5 @@
 package com.app.vitamin.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -30,9 +28,9 @@ public class RiskLevelEntity {
 
   @OneToMany(mappedBy = "riskId", cascade = CascadeType.ALL,
       fetch = FetchType.EAGER)
-  private Set<PortfolioEntity> portfolios=new HashSet<>();
+  private Set<PortfolioEntity> portfolios = new HashSet<>();
 
-  public void setPortfolios(PortfolioEntity portfolioEntity){
+  public void setPortfolios(PortfolioEntity portfolioEntity) {
     this.portfolios.add(portfolioEntity);
     portfolioEntity.setRiskId(this);
   }

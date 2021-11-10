@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @ControllerAdvice
 public class DatabaseExceptionHandler {
+
   @ResponseBody
   @ExceptionHandler(DatabaseException.class)
   ResponseEntity<CustomErrorResponse> userNotFoundHandler(DatabaseException ex) {
     CustomErrorResponse customErrorResponse = new CustomErrorResponse(LocalDateTime.now()
         , HttpStatus.INTERNAL_SERVER_ERROR.value()
-        , ex.getMessage(),false);
+        , ex.getMessage(), false);
     return new ResponseEntity(customErrorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

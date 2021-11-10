@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class StockDetails {
+
   private String stockName;
   private BigDecimal investedAmountMonthly;
   private BigDecimal totalInvestment;

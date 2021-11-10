@@ -8,8 +8,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 public class StockAnalysisApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(StockAnalysisApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(StockAnalysisApplication.class, args);
+  }
 
 }

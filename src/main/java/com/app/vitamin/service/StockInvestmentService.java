@@ -1,7 +1,6 @@
 package com.app.vitamin.service;
 
 import com.app.vitamin.domain.PortfolioRequest;
-import com.app.vitamin.domain.PortfolioResponse;
 import com.app.vitamin.domain.StockDetails;
 import com.app.vitamin.model.PortfolioEntity;
 import java.util.List;
