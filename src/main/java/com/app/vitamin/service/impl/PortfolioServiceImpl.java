@@ -1,7 +1,9 @@
 package com.app.vitamin.service.impl;
 
+import com.app.vitamin.exception.BadInputException;
 import com.app.vitamin.model.PortfolioEntity;
 import com.app.vitamin.model.RiskLevelEntity;
+import com.app.vitamin.repository.PortfolioRepository;
 import com.app.vitamin.repository.RiskLevelRepository;
 import com.app.vitamin.service.PortfoliosService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +24,8 @@ public class PortfolioServiceImpl implements PortfoliosService {
 
   @Autowired
   private RiskLevelRepository riskLevelRepository;
+  @Autowired
+  private PortfolioRepository portfolioRepository;
 
   @Autowired
   private ObjectMapper mapper;
@@ -29,21 +33,24 @@ public class PortfolioServiceImpl implements PortfoliosService {
   @Override
   public void insertPortfolios(String portfoliosJSON) {
     try {
-      Map<String, List<LinkedHashMap>> map = mapper.readValue(portfoliosJSON, Map.class);
-      RiskLevelEntity riskLevelEntity = new RiskLevelEntity();
+      Map<String, List<LinkedHashMap>> portfolioMap = mapper.readValue(portfoliosJSON, Map.class);
 
-      for (var entry : map.entrySet()) {
+      for (var entry : portfolioMap.entrySet()) {
+        RiskLevelEntity riskLevelEntity = new RiskLevelEntity();
+        riskLevelEntity.setRiskLevelId(Integer.parseInt(entry.getKey()));
         for (var values : entry.getValue()) {
           PortfolioEntity portfolioEntity = new PortfolioEntity();
           portfolioEntity.setTicker(values.get(TICKER).toString());
           portfolioEntity.setWeight(values.get(WEIGHT).toString());
-          portfolioEntity.setRiskLevel(riskLevelEntity);
+
+          riskLevelEntity.setPortfolios(portfolioEntity);
         }
-        riskLevelEntity.setRiskLevelId(Integer.parseInt(entry.getKey()));
         riskLevelRepository.save(riskLevelEntity);
       }
-    } catch (JsonProcessingException e) {
-      log.error(e.getLocalizedMessage());
+    } catch (JsonProcessingException exception) {
+      log.error(exception.getLocalizedMessage());
+      throw new BadInputException(exception.getMessage());
+
     }
   }
 }
