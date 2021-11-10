@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @ControllerAdvice
 public class BadInputExceptionHandler {
+
   @ResponseBody
   @ExceptionHandler(BadInputException.class)
   ResponseEntity<CustomErrorResponse> invalidInputHandler(BadInputException ex) {
     CustomErrorResponse customErrorResponse = new CustomErrorResponse(LocalDateTime.now()
         , HttpStatus.BAD_REQUEST.value()
-        , ex.getMessage(),false);
+        , ex.getMessage(), false);
     return new ResponseEntity(customErrorResponse, HttpStatus.BAD_REQUEST);
   }
 }

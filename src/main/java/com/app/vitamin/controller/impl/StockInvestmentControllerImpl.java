@@ -20,7 +20,8 @@ public class StockInvestmentControllerImpl implements StockInvestmentController 
 
   @Override
   public ResponseEntity<Set<PortfolioEntity>> getPortfolioForRisk(RiskLevelRequest riskLevel) {
-    return ResponseEntity.ok(stockInvestmentService.getPortfolioForRisk(riskLevel.getRequestLevel()));
+    return ResponseEntity
+        .ok(stockInvestmentService.getPortfolioForRisk(riskLevel.getRequestLevel()));
   }
 
   @Override

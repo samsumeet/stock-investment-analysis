@@ -1,9 +1,7 @@
 package com.app.vitamin.service.impl;
 
 import com.app.vitamin.domain.PortfolioRequest;
-import com.app.vitamin.domain.PortfolioResponse;
 import com.app.vitamin.domain.StockDetails;
-import com.app.vitamin.exception.BadInputException;
 import com.app.vitamin.exception.NotFoundException;
 import com.app.vitamin.model.PortfolioEntity;
 import com.app.vitamin.repository.RiskLevelRepository;
