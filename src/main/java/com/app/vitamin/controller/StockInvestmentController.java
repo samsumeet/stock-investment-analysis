@@ -22,7 +22,7 @@ public interface StockInvestmentController {
   @ApiOperation(value = "Fetch Portfolio matching Risk Level")
   @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"),
       @ApiResponse(code = 500, message = "Failure")})
-  @PostMapping(value = "/")
+  @PostMapping
   ResponseEntity<Set<PortfolioEntity>> getPortfolioForRisk(
       @RequestBody RiskLevelRequest riskLevel);
 

@@ -4,6 +4,7 @@ import com.app.vitamin.domain.PortfolioRequest;
 import com.app.vitamin.domain.StockDetails;
 import com.app.vitamin.exception.NotFoundException;
 import com.app.vitamin.model.PortfolioEntity;
+import com.app.vitamin.model.RiskLevelEntity;
 import com.app.vitamin.repository.RiskLevelRepository;
 import com.app.vitamin.service.StockInvestmentService;
 import java.math.BigDecimal;
@@ -29,7 +30,15 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
   public Set<PortfolioEntity> getPortfolioForRisk(Integer riskLevel) {
     log.info("Fetch Portfolio on basis of provided Risk {}", riskLevel);
 
-    return riskLevelRepository.findByRiskLevelId(riskLevel).getPortfolios();
+    RiskLevelEntity riskLevelEntity = riskLevelRepository.findByRiskLevelId(riskLevel);
+
+    if (riskLevelEntity == null) {
+      throw new NotFoundException("No Portfolio Found for given risk level");
+    }
+
+    Set<PortfolioEntity> portfolioList = riskLevelEntity.getPortfolios();
+
+    return portfolioList;
   }
 
   @Override
@@ -39,12 +48,15 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
     long totalMonth = (ChronoUnit.MONTHS
         .between(portfolioRequest.getFrom(), portfolioRequest.getTo()) + 1);
 
-    Set<PortfolioEntity> portfolioList = riskLevelRepository
-        .findByRiskLevelId(portfolioRequest.getRiskLevel()).getPortfolios();
+    RiskLevelEntity riskLevelEntity = riskLevelRepository
+        .findByRiskLevelId(portfolioRequest.getRiskLevel());
 
-    if (portfolioList.isEmpty()) {
+    if (riskLevelEntity == null) {
       throw new NotFoundException("No Portfolio Found for given risk level");
     }
+
+    Set<PortfolioEntity> portfolioList = riskLevelEntity.getPortfolios();
+
     return portfolioList.stream().map(portfolioEntity -> {
       double totalInvestedAmount = totalMonth * Double.parseDouble(portfolioEntity.getWeight())
           * portfolioRequest.getMonthlyInvestment();
